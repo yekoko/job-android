@@ -17,4 +17,19 @@
     <string name="suggestion">Suggestion</string>
     <string name="fail_loading_retry">Click here to reload</string>
     <string name="fail_loading_text">No internet access connection..</string>
+    <string name="notification_no_internet_connection_text">No Internet Connection</string>
+    <string name="InternetConnected">Connected</string>
+    <string name="NoInternetConnection">No Internet Connection&#8230;</string>
+    <string name="save_this_job">Save job</string>
+    <string name="apply_now">Apply Now</string>
+    <string name="text_job_title">Text Job Title</string>
+    <string name="text_job_company_name">Company Name</string>
+    <string name="text_job_experience">Job Experience</string>
+    <string name="text_job_location">Job Location</string>
+    <string name="Responsibilities">Responsibilities</string>
+    <string name="responsibilities_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="requirements">Requirements</string>
+    <string name="message_to_candidate">Interested Candidates, who wish to apply for the above position; please send in your resume to test@gmail.com or click the \"Apply Now\" below.</string>
+    <string name="phones">09 242 252 252, 01 353 352</string>
+    <string name="transition_company_image">company_image</string>
 </resources>

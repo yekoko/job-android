@@ -57,6 +57,9 @@ public class Job extends RealmObject {
     @SerializedName("experience")
     public Experience experience;
 
+    @SerializedName("company")
+    public Company company;
+
     public int getId() {
         return id;
     }
@@ -191,5 +194,13 @@ public class Job extends RealmObject {
 
     public void setExperience(Experience experience) {
         this.experience = experience;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

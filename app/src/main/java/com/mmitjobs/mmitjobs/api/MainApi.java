@@ -12,7 +12,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.mmitjobs.mmitjobs.model.RealmInt;
 import com.mmitjobs.mmitjobs.model.RealmString;
-import com.mmitjobs.mmitjobs.util.Const;
+import com.mmitjobs.mmitjobs.util.Constant;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -110,7 +110,7 @@ public class MainApi {
             .create();
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(Const.Base_API_URL)
+            .baseUrl(Constant.Base_API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(new OkHttpClient());
 

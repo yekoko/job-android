@@ -1,6 +1,7 @@
 package com.mmitjobs.mmitjobs.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,9 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mmitjobs.mmitjobs.R;
 import com.mmitjobs.mmitjobs.model.Job;
+import com.mmitjobs.mmitjobs.util.Constant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by pyaehein on 4/9/16.
@@ -21,7 +22,6 @@ public class RecyclerJobsAdapter extends RecyclerView.Adapter<RecyclerJobsAdapte
 
 
     ArrayList<Job> jobs;
-    List<String> mJobsImgs;
     Context mContext;
     RecyclerJobsItemClickListener mListener;
 
@@ -39,8 +39,15 @@ public class RecyclerJobsAdapter extends RecyclerView.Adapter<RecyclerJobsAdapte
 
     @Override
     public void onBindViewHolder(RecyclerJobsViewHolder holder, int position) {
+
+        holder.mImgJobsImg.setImageURI(Uri.parse(Constant.Image_URL + jobs.get(position).getCompany().getImage()));
         holder.mTxtJobsName.setText(jobs.get(position).getTitle());
-        //holder.mImgJobsImg.setImageURI(Uri.parse(jobs.get(position).getAddress()));
+        holder.mTxtCompanyName.setText(jobs.get(position).getCompany().getName());
+        holder.mTxtJobsExperience.setText(jobs.get(position).getExperience().getName());
+        holder.mTxtJobsSalary.setText(jobs.get(position).getSalary());
+        holder.mTxtJobsTag.setText(jobs.get(position).getCategory().getName());
+        holder.mTxtJobsTimer.setText(jobs.get(position).getCreatedAt());
+
     }
 
     @Override
@@ -49,24 +56,42 @@ public class RecyclerJobsAdapter extends RecyclerView.Adapter<RecyclerJobsAdapte
     }
 
     public class RecyclerJobsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView mTxtJobsName;
+
         SimpleDraweeView mImgJobsImg;
+        TextView mTxtJobsName;
+        TextView mTxtCompanyName;
+        TextView mTxtJobsExperience;
+        TextView mTxtJobsSalary;
+        TextView mTxtJobsTag;
+        TextView mTxtJobsTimer;
+
         public RecyclerJobsViewHolder(View itemView) {
             super(itemView);
 
-            mTxtJobsName = (TextView) itemView.findViewById(R.id.txt_card_jobs_name);
             mImgJobsImg = (SimpleDraweeView) itemView.findViewById(R.id.img_card);
+            mTxtJobsName = (TextView) itemView.findViewById(R.id.txt_card_jobs_name);
+            mTxtCompanyName = (TextView) itemView.findViewById(R.id.txt_card_jobs_companyname);
+            mTxtJobsExperience = (TextView) itemView.findViewById(R.id.txt_card_jobs_experience);
+            mTxtJobsSalary = (TextView) itemView.findViewById(R.id.txt_card_jobs_salary);
+            mTxtJobsTag = (TextView) itemView.findViewById(R.id.txt_card_jobs_tag);
+            mTxtJobsTimer = (TextView) itemView.findViewById(R.id.txt_card_jobs_timer);
 
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            mListener.OnItemClick(jobs.get(getLayoutPosition()));
+            mListener.OnItemClick(jobs.get(getLayoutPosition()), mImgJobsImg);
         }
     }
 
     public interface RecyclerJobsItemClickListener {
-        void OnItemClick(Job itemClicked);
+        void OnItemClick(Job itemClicked, SimpleDraweeView mImgJobsImg);
+    }
+
+    public void swapData(ArrayList<Job> mjobsList) {
+        this.jobs = null;
+        this.jobs = mjobsList;
+        notifyDataSetChanged();
     }
 }

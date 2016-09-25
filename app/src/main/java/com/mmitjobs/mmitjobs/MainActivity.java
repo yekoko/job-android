@@ -7,11 +7,13 @@ import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.CursorAdapter;
@@ -24,17 +26,36 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mmitjobs.mmitjobs.adapter.TabAdapter;
+import com.mmitjobs.mmitjobs.event.InternetConnectionEvent;
+import com.mmitjobs.mmitjobs.event.JobsEvent;
+import com.mmitjobs.mmitjobs.model.Job;
 import com.mmitjobs.mmitjobs.provider.JobSearchProvider;
+import com.mmitjobs.mmitjobs.util.Helper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Case;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    TextView mConnectionTextView;
+    FloatingActionButton fab;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,8 +82,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View header = navigationView.getHeaderView(0);
+        mConnectionTextView = (TextView) findViewById(R.id.connection_textview);
+        ConnectionUpdate(Helper.checkInterConnection(this));
 
+        View header = navigationView.getHeaderView(0);
 
         TextView sign_inTextView = (TextView) header.findViewById(R.id.txt_sing_in);
         sign_inTextView.setOnClickListener(new View.OnClickListener(){
@@ -74,13 +97,14 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Jobs"));
         tabLayout.addTab(tabLayout.newTab().setText("Company"));
         tabLayout.addTab(tabLayout.newTab().setText("Nearby Jobs"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         final TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -88,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
+                changeFab(tab.getPosition());
             }
 
             @Override
@@ -101,8 +125,81 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
 
 
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
+
+    public void changeFab(int tab) {
+        switch (tab) {
+            case 0:
+                fab.hide(new FloatingActionButton.OnVisibilityChangedListener(){
+                    @Override
+                    public void onHidden(FloatingActionButton fab) {
+                        fab.show();
+                    }
+                });
+                break;
+            case 1:
+                fab.hide(new FloatingActionButton.OnVisibilityChangedListener(){
+                    @Override
+                    public void onHidden(FloatingActionButton fab) {
+                        fab.show();
+                    }
+                });
+                break;
+            case 2:
+                fab.hide(new FloatingActionButton.OnVisibilityChangedListener(){
+                    @Override
+                    public void onHidden(FloatingActionButton fab) {
+                        fab.show();
+                    }
+                });
+                break;
+            default:
+                fab.hide();
+                fab.show();
+        }
+    }
+
+    private void ConnectionUpdate(boolean ConnectionExist) {
+        if(ConnectionExist) {
+            if(!mConnectionTextView.getText().toString().equals("Connected")) {
+                mConnectionTextView.setText(R.string.InternetConnected);
+                mConnectionTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
+                mConnectionTextView.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Animation fadeOut = new AlphaAnimation(1, 0);
+                        fadeOut.setInterpolator(new AccelerateInterpolator());
+                        fadeOut.setStartOffset(1000);
+                        fadeOut.setDuration(1000);
+                        mConnectionTextView.setAnimation(fadeOut);
+                        mConnectionTextView.setVisibility(View.GONE);
+                    }
+                }, 3000L);
+            }
+        } else {
+            mConnectionTextView.setText(R.string.NoInternetConnection);
+            mConnectionTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            mConnectionTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Subscribe
+    public void InternetConnectionUpdateEvent(InternetConnectionEvent event) {
+        ConnectionUpdate(event.ConnectionExist);
     }
 
     @Override
@@ -123,7 +220,6 @@ public class MainActivity extends AppCompatActivity
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //searchView.setQueryHint("Search job");
         searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
         final CursorAdapter cursorAdapter = new SimpleCursorAdapter(this,
@@ -143,6 +239,22 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextChange(String newText) {
                 Cursor c = getSuggestions(newText);
                 cursorAdapter.changeCursor(c);
+
+                if (newText.isEmpty()){
+                    List<Job> rjobs = MainApplication.realm.where(Job.class).findAll();
+                    ArrayList<Job> mjobsList = new ArrayList<>(rjobs);
+                    EventBus.getDefault().post(new JobsEvent(mjobsList));
+                    return false;
+                }
+
+                if(newText.length() >= 1) {
+                    List<Job> jobs = MainApplication.realm
+                            .where(Job.class)
+                            .contains("title", newText, Case.INSENSITIVE)
+                            .findAll();
+                    ArrayList<Job> mjobsList = new ArrayList<>(jobs);
+                    EventBus.getDefault().post(new JobsEvent(mjobsList));
+                }
                 return false;
             }
 

@@ -14,7 +14,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="48dp"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
@@ -30,6 +30,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
         app:borderWidth="0dp"
-        android:src="@android:drawable/ic_dialog_email"/>
+        android:src="@android:drawable/ic_dialog_email"
+        app:layout_behavior="com.mmitjobs.mmitjobs.util.AppFloatingActionButtonBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

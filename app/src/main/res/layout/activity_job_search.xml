@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,8 +9,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/search_result_appbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:background="@color/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay"/>
 
-</RelativeLayout>
+</LinearLayout>

@@ -23,4 +23,9 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
 
+    <color name="blue">#000099</color>
+    <color name="red">#990000</color>
+    <color name="lightblue">#ADD8E6</color>
+    <color name="green">#00ff00</color>
+
 </resources>
