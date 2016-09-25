@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MMitjobs</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_language">Language</string>
+    <string name="action_aboutus">About us</string>
+    <string name="searchable">Searchable</string>
+    <string name="action_search">Search</string>
+    <string name="searchjobs">Search job</string>
+    <string name="action_clear_history">Clear search history</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="fail_loading_retry">Click here to reload</string>
+    <string name="fail_loading_text">No internet access connection..</string>
+</resources>
