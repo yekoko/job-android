@@ -1,11 +1,9 @@
 package com.mmitjobs.mmitjobs;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.TransitionInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -83,10 +81,6 @@ public class JobDetailActivity extends AppCompatActivity {
                 Toast.makeText(JobDetailActivity.this, "Job applied.", Toast.LENGTH_SHORT).show();
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.move));
-        }
 
     }
 

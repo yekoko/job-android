@@ -81,12 +81,12 @@ public class RecyclerJobsAdapter extends RecyclerView.Adapter<RecyclerJobsAdapte
 
         @Override
         public void onClick(View view) {
-            mListener.OnItemClick(jobs.get(getLayoutPosition()), mImgJobsImg);
+            mListener.OnItemClick(jobs.get(getLayoutPosition()));
         }
     }
 
     public interface RecyclerJobsItemClickListener {
-        void OnItemClick(Job itemClicked, SimpleDraweeView mImgJobsImg);
+        void OnItemClick(Job itemClicked);
     }
 
     public void swapData(ArrayList<Job> mjobsList) {

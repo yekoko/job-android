@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".JobDetailActivity"></activity>
-        <receiver android:name=".Receiver.InternetBroadcastReceiver">
+        <receiver android:name=".receiver.InternetBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>

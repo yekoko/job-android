@@ -1,9 +1,7 @@
 package com.mmitjobs.mmitjobs.fragment;
 
 
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -20,7 +18,6 @@ import android.view.animation.Animation;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.mmitjobs.mmitjobs.JobDetailActivity;
 import com.mmitjobs.mmitjobs.MainApplication;
 import com.mmitjobs.mmitjobs.R;
@@ -154,15 +151,11 @@ public class JobsFragment extends Fragment implements RecyclerJobsAdapter.Recycl
     }
 
     @Override
-    public void OnItemClick(Job itemClicked, SimpleDraweeView mJobImageView) {
+    public void OnItemClick(Job itemClicked) {
         Bundle args = new Bundle();
         args.putInt("job_id", itemClicked.getId());
         Intent intent = new Intent(getActivity().getApplicationContext(), JobDetailActivity.class);
         intent.putExtras(args);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), mJobImageView, mJobImageView.getTransitionName()).toBundle());
-        } else {
-            startActivity(intent);
-        }
+        startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.mmitjobs.mmitjobs.Receiver;
+package com.mmitjobs.mmitjobs.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
