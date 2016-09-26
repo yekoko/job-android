@@ -27,6 +27,8 @@ import static com.mmitjobs.mmitjobs.MainApplication.realm;
 
 public class ApiDataLoading {
 
+    private final String Tag = "ApiDataLoading";
+
     public void CompanyDataLoading() {
         Call<Companies> companiesCall = MainApi.createService(MainService.class).getAllCompanies();
         companiesCall.enqueue(new Callback<Companies>() {
@@ -154,6 +156,7 @@ public class ApiDataLoading {
 
                     } else {
                         MainApplication.realm.cancelTransaction();
+                        EventBus.getDefault().post(new JobsEvent(null));
                     }
 
                 }
@@ -213,7 +216,7 @@ public class ApiDataLoading {
     }
 
 
-    private boolean JobExistModified(int id, String UpdateAt) {
+    private boolean JobExistModified(int id, String UpdatedAt) {
         Job job = MainApplication.realm.where(Job.class).equalTo("id", id).findFirst();
 
         // check job is exist or not
@@ -221,7 +224,7 @@ public class ApiDataLoading {
             return true;
         }
         // check current update date is lower than new
-        if(job.getUpdatedAt() != UpdateAt) {
+        if(!job.getUpdatedAt().equals(UpdatedAt)) {
             job.deleteFromRealm();
             //MainApplication.realm.commitTransaction();
             //MainApplication.realm.beginTransaction();

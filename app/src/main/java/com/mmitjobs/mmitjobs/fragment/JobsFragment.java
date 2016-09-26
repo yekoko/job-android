@@ -93,7 +93,13 @@ public class JobsFragment extends Fragment implements RecyclerJobsAdapter.Recycl
 
     @Subscribe
     public void JobsDataUpdateEvent(JobsEvent event) {
-        mRecyclerViewAdapter.swapData(event.mjobsList);
+        if (event.mjobsList != null) {
+            mRecyclerViewAdapter.swapData(event.mjobsList);
+        }
+
+        // Stop refresh animation
+        mSwipeRefreshLayout.setRefreshing(false);
+        Toast.makeText(getContext(), "Jobs Updated", Toast.LENGTH_SHORT).show();
     }
 
     private void refreshJobs() {
@@ -109,10 +115,6 @@ public class JobsFragment extends Fragment implements RecyclerJobsAdapter.Recycl
     private void JobsLoadComplete() {
         // Update the adapter and notify data set changed
         JobsRecyclerUpdate();
-
-        // Stop refresh animation
-        mSwipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(getContext(), "Jobs Updated", Toast.LENGTH_SHORT).show();
     }
 
     private void JobsRecyclerUpdate() {
